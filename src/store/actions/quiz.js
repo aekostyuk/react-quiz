@@ -124,6 +124,15 @@ export function quizAnswerClick(answerId) {
 		} else {
 			results[question.id] = "error";
 			dispatch(quizSetState({ [answerId]: "error" }, results));
+
+			const timeout = window.setTimeout(() => {
+				if (isQuizFinished(state)) {
+					dispatch(finishQuiz());
+				} else {
+					dispatch(quizNextQuiestion(state.activeQuestion + 1));
+				}
+				window.clearTimeout(timeout);
+			}, 1000);
 		}
 	};
 }
